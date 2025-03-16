@@ -26,9 +26,9 @@ const musicFiles = {
 
 let backgroundX = 0;
 let groundX = 0;
-const skyColor = "#70c5ce"; // Azul cielo
-const groundColor = "#8B4513"; // Café para el suelo
-const grassColor = "#228B22"; // Verde para la hierba
+const skyColor = "#70c5ce"; 
+const groundColor = "#8B4513"; 
+const grassColor = "#228B22"; 
 
 let currentMusic = new Audio(musicFiles.menu);
 currentMusic.loop = true;
@@ -41,12 +41,12 @@ let obstacles = [];
 let frameCount = 0;
 let currentQuestionIndex = 0;
 let level = 1;
-let maxMeters = 300;  // Nivel 1: 300m | Nivel 2: 400m | Nivel 3: 500m
+let maxMeters = 300;  
 let obstacleSpeed = 2.5;
 
-let gameLoopID = null; // Para controlar la animación
+let gameLoopID = null; 
 
-// Base de preguntas (20 en total)
+
 const questions = [
     { question: "¿Qué es POO?", answers: ["Programación Orientada a Objetos", "Protocolo de Operaciones Online", "Proceso Operacional Organizado"], correct: 0 },
     { question: "¿Qué significa HTML?", answers: ["HyperText Markup Language", "High Transfer Machine Learning", "Hyper Tool Modern Logic"], correct: 0 },
@@ -70,7 +70,7 @@ const questions = [
     { question: "¿Cuál es la finalidad de JSON?", answers: ["Intercambiar datos de manera estructurada", "Ejecutar código en el navegador", "Optimizar imágenes en una web"], correct: 0 }
 ];
 
-// **Personaje (mouse)**
+
 const mouse = {
     x: 150,
     y: canvas.height / 2,
@@ -82,11 +82,11 @@ const mouse = {
     maxFallSpeed: 4
 };
 
-// **Obstáculos (tubos)**
+// Obstáculos (tubos)
 const obstacleWidth = 70;
 const obstacleGap = 160;
 
-// **Cargar imágenes**
+// Cargar imágenes
 const mouseImg = new Image();
 mouseImg.src = "MEDIA/pajaro.png";
 
@@ -96,7 +96,7 @@ pipeImg.src = "MEDIA/tubo.png";
 const backgroundImg = new Image();
 backgroundImg.src = "MEDIA/paisajegame.JPG";
 
-// **Iniciar juego al hacer clic en "Jugar"**
+// Iniciar juego al hacer clic en "Jugar"
 startButton.addEventListener("click", () => {
     startScreen.style.display = "none";
     canvas.style.display = "block";
@@ -107,7 +107,7 @@ startButton.addEventListener("click", () => {
 });
 
 
-// **Evento para saltar**
+// Evento para saltar
 document.addEventListener("keydown", (event) => {
     if (gameStarted && event.code === "Space") {
         jump();
@@ -122,11 +122,11 @@ document.addEventListener("click", () => {
 
 
 function drawBackground() {
-    // **Cielo**
+    // Cielo
     ctxMenu.fillStyle = skyColor;
     ctxMenu.fillRect(0, 0, menuCanvas.width, menuCanvas.height);
 
-    // **Montañas**
+    // Montañas
     ctxMenu.fillStyle = "#556B2F"; // Verde oscuro
     ctxMenu.beginPath();
     ctxMenu.moveTo(0, menuCanvas.height - 200);
@@ -140,11 +140,11 @@ function drawBackground() {
     ctxMenu.closePath();
     ctxMenu.fill();
 
-    // **Suelo (Capa inferior)**
+    // Suelo (Capa inferior)
     ctxMenu.fillStyle = groundColor;
     ctxMenu.fillRect(0, menuCanvas.height - 40, menuCanvas.width, 40);
 
-    // **Hierba (Encima del suelo)**
+    // Hierba
     ctxMenu.fillStyle = grassColor;
     ctxMenu.fillRect(0, menuCanvas.height - 50, menuCanvas.width, 10);
 }
@@ -167,10 +167,10 @@ animateBackground();
 function changeMusic(level) {
     let newMusic = musicFiles[`level${level}`];
     if (newMusic) {
-        currentMusic.pause();  // 🔥 Detiene la música actual
-        currentMusic.src = newMusic;  // 🔥 Cambia la canción
-        currentMusic.currentTime = 0; // 🔥 Reinicia la música desde el inicio
-        currentMusic.play(); // 🔥 Reproduce la nueva música
+        currentMusic.pause(); 
+        currentMusic.src = newMusic;  
+        currentMusic.currentTime = 0; 
+        currentMusic.play(); 
     }
 }
 
@@ -193,12 +193,12 @@ function playMenuMusic() {
 }
 
 
-// **Función para hacer que el personaje salte**
+// Función para hacer que el personaje salte
 function jump() {
     mouse.velocityY = mouse.jumpPower;
 }
 
-// **Generar obstáculos**
+// Generar obstáculos
 function generateObstacles() {
     let minHeight = 80;
     let maxHeight = canvas.height / 2;
@@ -213,11 +213,11 @@ function generateObstacles() {
     obstacles.push(newObstacle);
 }
 
-// **Detección de colisión con obstáculos**
+// Detección de colisión con obstáculos
 function checkCollision(mouse, obstacle) {
     if (invulnerable) return false;
 
-    // Definir hitbox reducida (más pequeña que el tamaño real del pájaro)
+    // Definir hitbox
     let hitboxPaddingX = 5;  // Reducir ancho de la hitbox
     let hitboxPaddingY = 5;  // Reducir alto de la hitbox
 
@@ -236,46 +236,45 @@ function checkCollision(mouse, obstacle) {
     );
 }
 
-// **Bucle principal del juego (agregando el suelo)**
-// **Suelo**
-const groundHeight = 40; // Aumentado para que sea más visible
+// **Bucle principal del juego
+const groundHeight = 40; // Aumentar el suelo para que sea más visible
 
-// **Bucle principal del juego (agregando el suelo)**
+// Bucle principal del juego
 function gameLoop() {
     if (!gameStarted) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // **Dibujar fondo**
+    // Dibujar fondo
     ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
-    // **Aplicar gravedad al pájaro**
+    // Gravedad del pájaro
     mouse.velocityY += mouse.gravity;
     if (mouse.velocityY > mouse.maxFallSpeed) {
         mouse.velocityY = mouse.maxFallSpeed;
     }
     mouse.y += mouse.velocityY;
 
-    // **Dibujar personaje**
+    // Dibujar personaje
     ctx.drawImage(mouseImg, mouse.x, mouse.y, mouse.width, mouse.height);
 
-    // **Generar obstáculos periódicamente**
+    // Generar obstáculos periódicamente
     if (frameCount % 100 === 0) {
         generateObstacles();
     }
 
-    // **Dibujar obstáculos y moverlos**
+    // Dibujar obstáculos y moverlos
     obstacles.forEach((obstacle, index) => {
         obstacle.x -= obstacleSpeed;
 
-        // **Dibujar tubo superior corregido (invertido y sin cortes)**
-        ctx.save(); // Guardamos el estado del canvas
+        // Tubo superior
+        ctx.save(); 
         ctx.translate(obstacle.x + obstacleWidth, obstacle.topHeight); // Movemos el punto de origen
         ctx.scale(1, -1); // Invertimos el eje Y
         ctx.drawImage(pipeImg, 0, 0, obstacleWidth, obstacle.topHeight);
         ctx.restore(); // Restauramos el estado original del canvas
 
-        // **Dibujar tubo inferior**
+        // Dibujar tubo inferior
         ctx.drawImage(pipeImg, obstacle.x, canvas.height - obstacle.bottomHeight, obstacleWidth, obstacle.bottomHeight);
 
         if (checkCollision(mouse, obstacle)) {
@@ -287,7 +286,7 @@ function gameLoop() {
         }
     });
 
-    // **Contador de metros**
+    // Contador de metros
     meters += 0.1;
     ctx.fillStyle = "white";
     ctx.font = "20px Arial";
@@ -303,7 +302,7 @@ function gameLoop() {
     gameLoopID = requestAnimationFrame(gameLoop);
 }
 
-// **Avanzar de nivel**
+// Avanzar de nivel
 function advanceLevel() {
     cancelAnimationFrame(gameLoopID); // Detener la animación antes de cambiar de nivel
     gameStarted = false;
@@ -314,7 +313,7 @@ function advanceLevel() {
         level = 2;
         maxMeters = 400;
         obstacleSpeed += 0.5;
-        changeMusic(level); // 🔥 Cambia la música al nivel 2
+        changeMusic(level); 
         resetGame();
         gameStarted = true;
         gameLoop();
@@ -351,12 +350,12 @@ function advanceLevel() {
     }
     else {
         alert("¡Eres increíble! Has completado todos los niveles y eres un gran informático.");
-        restartGame(true); // Indica que fue una victoria
+        restartGame(true);
     }
 }
 
 
-// **Mostrar pregunta cuando pierdes**
+// Mostrar pregunta cuando pierdes
 function showQuestion() {
     if (revivalAttempts >= 2) {
         restartGame();
@@ -376,7 +375,7 @@ function showQuestion() {
     });
 }
 
-// **Comprobar respuesta**
+// Comprobar respuesta
 function checkAnswer(answerIndex) {
     if (answerIndex === questions[currentQuestionIndex].correct) {
         revivalAttempts++;
@@ -393,31 +392,30 @@ function checkAnswer(answerIndex) {
     }
 }
 
-// **Reiniciar juego correctamente**
+// Reiniciar juego
 function restartGame(victory = false) {
     gameStarted = false;
     level = 1;
     maxMeters = 300;
     obstacleSpeed = 2.5;
 
-    cancelAnimationFrame(gameLoopID); // Detener el bucle del juego
-    currentMusic.pause(); // 🔥 Detiene la música al perder
-    playMenuMusic(); // 🔥 Vuelve a poner la música del menú
+    cancelAnimationFrame(gameLoopID); 
+    currentMusic.pause(); 
+    playMenuMusic(); 
 
     if (!victory) {
         alert("Has perdido. Volviendo al inicio...");
     }
 
-    // 🔥🔥🔥 Asegurar que la pantalla de preguntas desaparezca 🔥🔥🔥
-    questionScreen.style.display = "none"; // Ocultar preguntas
-    canvas.style.display = "none"; // Ocultar el canvas del juego
-    startScreen.style.display = "block"; // Mostrar el menú de inicio
+    questionScreen.style.display = "none"; 
+    canvas.style.display = "none"; 
+    startScreen.style.display = "block";
 
     resetGame();
 }
 
 
-// **Resetear variables del nivel**
+// Resetear variables del nivel
 function resetGame() {
     meters = 0;
     revivalAttempts = 0;
@@ -436,7 +434,7 @@ function skipLevel() {
     }
 }
 
-let gamePaused = false; // Estado de pausa
+let gamePaused = false; 
 
 // Evento para pausar y reanudar con la tecla "Escape"
 document.addEventListener("keydown", (event) => {
@@ -445,14 +443,14 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-// **Función para pausar/reanudar el juego**
+//Función para pausar/reanudar el juego
 function togglePause() {
     if (!gameStarted) return; // No permite pausar en la pantalla de inicio
 
     gamePaused = !gamePaused;
 
     if (gamePaused) {
-        cancelAnimationFrame(gameLoopID); // Detiene la animación
+        cancelAnimationFrame(gameLoopID);
         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "white";
