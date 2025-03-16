@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlappyMouse</title>
+    <link rel="stylesheet" href="CSS/estilos.css">
+</head>
+<body>
+
+    <div id="startScreen">
+        <canvas id="menuCanvas"></canvas>
+        <h1 id="gameTitle">FlappyMouse</h1>
+        <button id="startButton">Jugar</button>
+    </div>
+    
+
+    <div id="questionScreen">
+        <h2>Responde correctamente la pregunta, si la respondes correctamente volveras al juego y si no perderás el progreso.</h2>
+        <p id="questionText"></p>
+        <button class="answerButton" onclick="checkAnswer(0)">A</button>
+        <button class="answerButton" onclick="checkAnswer(1)">B</button>
+        <button class="answerButton" onclick="checkAnswer(2)">C</button>
+    </div>
+
+    <div id="pauseScreen">
+        <p>Pausa - Presiona 'Esc' para continuar</p>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+    <script src="JAVA/script.js"></script>
+
+</body>
+</html>
